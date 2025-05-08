@@ -1,0 +1,294 @@
+[ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 1; ]
+import Toybox.Application;
+[ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 2; ]
+import Toybox.Graphics;
+[ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 3; ]
+import Toybox.Lang;
+[ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 4; ]
+import Toybox.System;
+[ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 5; ]
+import Toybox.Time.Gregorian;
+[ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 6; ]
+import Toybox.WatchUi;
+[ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 8; ]
+class MyWatchFace1View extends WatchUi.WatchFace{
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 8; ]
+    <init> {
+    }
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 8; ]
+    static
+    <init> {
+    }
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 10; ]
+    function initialize() as Void {
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_10_26_12_4_start:
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 11 8 ]
+        %tmp.2 = getv ? :WatchFace;
+        %tmp.3 = getv function %tmp.2 :initialize;
+        invoke %tmp.2 %tmp.3();
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_10_26_12_4_stop:
+    }
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 15; ]
+    function onLayout(dc as Dc) as Void {
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_15_40_17_4_start:
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 16 8 ]
+        %tmp.1 = self;
+        %tmp.2 = getv function %tmp.1 :setLayout;
+        %tmp.4 = getv ? :Rez;
+        %tmp.5 = getv %tmp.4 :Layouts;
+        %tmp.6 = getv function %tmp.5 :WatchFace;
+        %tmp.8 = lgetv %dc;
+        %tmp.9 = invoke %tmp.5 %tmp.6(%tmp.8);
+        invoke %tmp.1 %tmp.2(%tmp.9);
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_15_40_17_4_stop:
+    }
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 22; ]
+    function onShow() as Void {
+    }
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 26; ]
+    function onUpdate(dc as Dc) as Void {
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start:
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 28 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %clockTime.1 = local;
+        %tmp.1 = getm $.Toybox.System;
+        %tmp.2 = getv function %tmp.1 :getClockTime;
+        %tmp.3 = invoke %tmp.1 %tmp.2();
+        lputv %clockTime.1 %tmp.3;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 29 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %hours.2 = local;
+        %tmp.4 = lgetv %clockTime.1;
+        %tmp.5 = getv %tmp.4 :hour;
+        lputv %hours.2 %tmp.5;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 30 8 ]
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_30_8_34_8_if_stmt:
+        %tmp.6 = getm $.Toybox.System;
+        %tmp.7 = getv function %tmp.6 :getDeviceSettings;
+        %tmp.8 = invoke %tmp.6 %tmp.7();
+        %tmp.9 = getv %tmp.8 :is24Hour;
+        %tmp.10 = not %tmp.9;
+        bf %tmp.10 @C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_30_8_34_8_if_end;
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_30_8_34_8_if_true:
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_30_50_34_8_start:
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 31 12 ]
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_31_12_33_12_if_stmt:
+        %tmp.12 = lgetv %hours.2;
+        %tmp.13 = 12;
+        %tmp.14 = gt %tmp.12 %tmp.13;
+        bf %tmp.14 @C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_31_12_33_12_if_end;
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_31_12_33_12_if_true:
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_31_28_33_12_start:
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 32 16 ]
+        %tmp.16 = lgetv %hours.2;
+        %tmp.17 = 12;
+        %tmp.18 = sub %tmp.16 %tmp.17;
+        lputv %hours.2 %tmp.18;
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_31_28_33_12_stop:
+        goto @C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_31_12_33_12_if_end;
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_31_12_33_12_if_end:
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_30_50_34_8_stop:
+        goto @C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_30_8_34_8_if_end;
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_30_8_34_8_if_end:
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 35 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %timeFormat.3 = local;
+        %tmp.19 = "$1$:$2$";
+        lputv %timeFormat.3 %tmp.19;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 36 8 ]
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_36_8_39_8_if_stmt:
+        %tmp.20 = getm $.Toybox.Application;
+        %tmp.21 = getv %tmp.20 :Properties;
+        %tmp.22 = getv function %tmp.21 :getValue;
+        %tmp.23 = "UseMilitaryFormat";
+        %tmp.24 = invoke %tmp.21 %tmp.22(%tmp.23);
+        bf %tmp.24 @C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_36_8_39_8_if_end;
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_36_8_39_8_if_true:
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_36_66_39_8_start:
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 37 12 ]
+        %tmp.25 = "$1$$2$";
+        lputv %timeFormat.3 %tmp.25;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 38 12 ]
+        %tmp.26 = lgetv %hours.2;
+        %tmp.27 = getv function %tmp.26 :format;
+        %tmp.28 = "%02d";
+        %tmp.29 = invoke %tmp.26 %tmp.27(%tmp.28);
+        lputv %hours.2 %tmp.29;
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_36_66_39_8_stop:
+        goto @C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_36_8_39_8_if_end;
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_36_8_39_8_if_end:
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 40 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %timeString.4 = local;
+        %tmp.30 = getm $.Toybox.Lang;
+        %tmp.31 = getv function %tmp.30 :format;
+        %tmp.33 = lgetv %timeFormat.3;
+        %tmp.34 = newa 2;
+        %tmp.36 = lgetv %hours.2;
+        %tmp.37 = dup %tmp.34;
+        %tmp.38 = aputv %tmp.37 0 %tmp.36;
+        %tmp.39 = lgetv %clockTime.1;
+        %tmp.40 = getv %tmp.39 :min;
+        %tmp.41 = getv function %tmp.40 :format;
+        %tmp.42 = "%02d";
+        %tmp.43 = invoke %tmp.40 %tmp.41(%tmp.42);
+        %tmp.44 = dup %tmp.38;
+        %tmp.45 = aputv %tmp.44 1 %tmp.43;
+        %tmp.46 = invoke %tmp.30 %tmp.31(%tmp.33, %tmp.45);
+        lputv %timeString.4 %tmp.46;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 43 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %view.5 = local;
+        %tmp.48 = getv ? :View;
+        %tmp.49 = getv function %tmp.48 :findDrawableById;
+        %tmp.50 = "TimeLabel";
+        %tmp.51 = invoke %tmp.48 %tmp.49(%tmp.50);
+        %tmp.52 = as %tmp.51 Text;
+        lputv %view.5 %tmp.52;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 44 8 ]
+        %tmp.53 = lgetv %view.5;
+        %tmp.54 = getv function %tmp.53 :setColor;
+        %tmp.55 = getm $.Toybox.Application;
+        %tmp.56 = getv %tmp.55 :Properties;
+        %tmp.57 = getv function %tmp.56 :getValue;
+        %tmp.58 = "ForegroundColor";
+        %tmp.59 = invoke %tmp.56 %tmp.57(%tmp.58);
+        %tmp.60 = as %tmp.59 Number;
+        invoke %tmp.53 %tmp.54(%tmp.60);
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 45 8 ]
+        %tmp.61 = lgetv %view.5;
+        %tmp.62 = getv function %tmp.61 :setText;
+        %tmp.64 = lgetv %timeString.4;
+        invoke %tmp.61 %tmp.62(%tmp.64);
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 48 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %info.6 = local;
+        %tmp.65 = getm $.Toybox.Time.Gregorian;
+        %tmp.66 = getv function %tmp.65 :info;
+        %tmp.68 = getv ? :Time;
+        %tmp.69 = getv function %tmp.68 :now;
+        %tmp.70 = invoke %tmp.68 %tmp.69();
+        %tmp.72 = getv ? :Time;
+        %tmp.73 = getv %tmp.72 :FORMAT_MEDIUM;
+        %tmp.74 = invoke %tmp.65 %tmp.66(%tmp.70, %tmp.73);
+        lputv %info.6 %tmp.74;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 49 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %dateString.7 = local;
+        %tmp.75 = getm $.Toybox.Lang;
+        %tmp.76 = getv function %tmp.75 :format;
+        %tmp.77 = "$1$ $2$";
+        %tmp.78 = newa 2;
+        %tmp.79 = lgetv %info.6;
+        %tmp.80 = getv %tmp.79 :day_of_week;
+        %tmp.81 = dup %tmp.78;
+        %tmp.82 = aputv %tmp.81 0 %tmp.80;
+        %tmp.83 = lgetv %info.6;
+        %tmp.84 = getv %tmp.83 :day;
+        %tmp.85 = dup %tmp.82;
+        %tmp.86 = aputv %tmp.85 1 %tmp.84;
+        %tmp.87 = invoke %tmp.75 %tmp.76(%tmp.77, %tmp.86);
+        lputv %dateString.7 %tmp.87;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 51 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %dateView.8 = local;
+        %tmp.89 = getv ? :View;
+        %tmp.90 = getv function %tmp.89 :findDrawableById;
+        %tmp.91 = "DateLabel";
+        %tmp.92 = invoke %tmp.89 %tmp.90(%tmp.91);
+        %tmp.93 = as %tmp.92 Text;
+        lputv %dateView.8 %tmp.93;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 52 8 ]
+        %tmp.94 = lgetv %dateView.8;
+        %tmp.95 = getv function %tmp.94 :setColor;
+        %tmp.96 = getm $.Toybox.Application;
+        %tmp.97 = getv %tmp.96 :Properties;
+        %tmp.98 = getv function %tmp.97 :getValue;
+        %tmp.99 = "ForegroundColor";
+        %tmp.100 = invoke %tmp.97 %tmp.98(%tmp.99);
+        %tmp.101 = as %tmp.100 Number;
+        invoke %tmp.94 %tmp.95(%tmp.101);
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 53 8 ]
+        %tmp.102 = lgetv %dateView.8;
+        %tmp.103 = getv function %tmp.102 :setText;
+        %tmp.105 = lgetv %dateString.7;
+        invoke %tmp.102 %tmp.103(%tmp.105);
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 56 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %stats.9 = local;
+        %tmp.106 = getm $.Toybox.System;
+        %tmp.107 = getv function %tmp.106 :getSystemStats;
+        %tmp.108 = invoke %tmp.106 %tmp.107();
+        lputv %stats.9 %tmp.108;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 57 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %batteryPercentage.10 = local;
+        %tmp.109 = lgetv %stats.9;
+        %tmp.110 = getv %tmp.109 :battery;
+        %tmp.111 = getv function %tmp.110 :format;
+        %tmp.112 = "%d";
+        %tmp.113 = invoke %tmp.110 %tmp.111(%tmp.112);
+        lputv %batteryPercentage.10 %tmp.113;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 58 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %estimatedDaysLeft.11 = local;
+        %tmp.114 = lgetv %stats.9;
+        %tmp.115 = getv %tmp.114 :batteryInDays;
+        %tmp.116 = getv function %tmp.115 :format;
+        %tmp.117 = "%d";
+        %tmp.118 = invoke %tmp.115 %tmp.116(%tmp.117);
+        lputv %estimatedDaysLeft.11 %tmp.118;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 61 8 ]
+        [ "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_start" "C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop" ]
+        %batteryView.12 = local;
+        %tmp.120 = getv ? :View;
+        %tmp.121 = getv function %tmp.120 :findDrawableById;
+        %tmp.122 = "BatteryLabel";
+        %tmp.123 = invoke %tmp.120 %tmp.121(%tmp.122);
+        %tmp.124 = as %tmp.123 Text;
+        lputv %batteryView.12 %tmp.124;
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 62 8 ]
+        %tmp.125 = lgetv %batteryView.12;
+        %tmp.126 = getv function %tmp.125 :setColor;
+        %tmp.127 = getm $.Toybox.Application;
+        %tmp.128 = getv %tmp.127 :Properties;
+        %tmp.129 = getv function %tmp.128 :getValue;
+        %tmp.130 = "ForegroundColor";
+        %tmp.131 = invoke %tmp.128 %tmp.129(%tmp.130);
+        %tmp.132 = as %tmp.131 Number;
+        invoke %tmp.125 %tmp.126(%tmp.132);
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 63 8 ]
+        %tmp.133 = lgetv %batteryView.12;
+        %tmp.134 = getv function %tmp.133 :setText;
+        %tmp.135 = getm $.Toybox.Lang;
+        %tmp.136 = getv function %tmp.135 :format;
+        %tmp.137 = "$1$% $2$ days";
+        %tmp.138 = newa 2;
+        %tmp.140 = lgetv %batteryPercentage.10;
+        %tmp.141 = dup %tmp.138;
+        %tmp.142 = aputv %tmp.141 0 %tmp.140;
+        %tmp.144 = lgetv %estimatedDaysLeft.11;
+        %tmp.145 = dup %tmp.142;
+        %tmp.146 = aputv %tmp.145 1 %tmp.144;
+        %tmp.147 = invoke %tmp.135 %tmp.136(%tmp.137, %tmp.146);
+        invoke %tmp.133 %tmp.134(%tmp.147);
+[ "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc" 66 8 ]
+        %tmp.149 = getv ? :View;
+        %tmp.150 = getv function %tmp.149 :onUpdate;
+        %tmp.152 = lgetv %dc;
+        invoke %tmp.149 %tmp.150(%tmp.152);
+C_dev_garmin_MyWatchFace1_source_MyWatchFace1View_mc_26_40_67_4_stop:
+    }
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 72; ]
+    function onHide() as Void {
+    }
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 76; ]
+    function onExitSleep() as Void {
+    }
+    [ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 80; ]
+    function onEnterSleep() as Void {
+    }
+}
+[ @file = "C:\dev\garmin\MyWatchFace1\source\MyWatchFace1View.mc"; @line = 1; ]
+<init> {
+}
