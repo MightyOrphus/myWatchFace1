@@ -44,9 +44,18 @@ class MyWatchFace1View extends WatchUi.WatchFace {
         view.setColor(Application.Properties.getValue("ForegroundColor") as Number);
         view.setText(timeString);
 
+        // Get date info from the Toybox.Time.Gregorian package
+        var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+        var dateString = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
+        // Update date view
+        var dateView = View.findDrawableById("DateLabel") as Text;
+        dateView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
+        dateView.setText(dateString);
+
         // Get battery info
         var stats = System.getSystemStats();
-        var batteryPercentage = stats.battery.format("%d");
+        var battery = stats.battery;
+        var batteryPercentage = battery.format("%d");
 
         // Update battery view
         var batteryView = View.findDrawableById("BatteryLabel") as Text;
@@ -55,6 +64,22 @@ class MyWatchFace1View extends WatchUi.WatchFace {
 
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
+
+        // Draw battery icon
+        var batteryColor = Graphics.COLOR_GREEN;
+        if (battery <= 20) {
+            batteryColor = Graphics.COLOR_RED;
+        } else if (battery <= 50) {
+            batteryColor = Graphics.COLOR_YELLOW;
+        }
+
+        dc.setColor(batteryColor, Graphics.COLOR_TRANSPARENT);
+        // Position it near the battery label (y="70%")
+        var x = dc.getWidth() / 2 - 40;
+        var y = dc.getHeight() * 0.70 - 10;
+        dc.drawRectangle(x, y, 20, 10);
+        dc.fillRectangle(x + 2, y + 2, (16 * (battery / 100.0)).toNumber(), 6);
+        dc.fillRectangle(x + 20, y + 3, 2, 4);
     }
 
     // Called when this View is removed from the screen. Save the
