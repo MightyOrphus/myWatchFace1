@@ -44,23 +44,14 @@ class MyWatchFace1View extends WatchUi.WatchFace {
         view.setColor(Application.Properties.getValue("ForegroundColor") as Number);
         view.setText(timeString);
 
-        // Get date info from the Toybox.Time.Gregorian package
-        var info = Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
-        var dateString = Lang.format("$1$ $2$", [info.day_of_week, info.day]);
-        // Update date view
-        var dateView = View.findDrawableById("DateLabel") as Text;
-        dateView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
-        dateView.setText(dateString);
-
         // Get battery info
         var stats = System.getSystemStats();
         var batteryPercentage = stats.battery.format("%d");
-        var estimatedDaysLeft = stats.batteryInDays.format("%d");
 
         // Update battery view
         var batteryView = View.findDrawableById("BatteryLabel") as Text;
         batteryView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
-        batteryView.setText(Lang.format("$1$% $2$ days", [batteryPercentage, estimatedDaysLeft]));
+        batteryView.setText(Lang.format("$1$%", [batteryPercentage]));
 
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
