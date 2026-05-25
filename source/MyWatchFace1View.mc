@@ -65,6 +65,31 @@ class MyWatchFace1View extends WatchUi.WatchFace {
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
 
+        var settings = System.getDeviceSettings();
+
+        // Draw connectivity icon
+        if (settings.phoneConnected) {
+            dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+            var bx = dc.getWidth() / 2 - 10;
+            var by = dc.getHeight() * 0.10;
+            // Simple Bluetooth-like icon using lines
+            dc.drawLine(bx, by, bx, by + 10);
+            dc.drawLine(bx, by, bx + 5, by + 3);
+            dc.drawLine(bx + 5, by + 3, bx - 5, by + 7);
+            dc.drawLine(bx - 5, by + 3, bx + 5, by + 7);
+            dc.drawLine(bx + 5, by + 7, bx, by + 10);
+        }
+
+        // Draw notification count
+        if (settings.notificationCount > 0) {
+            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+            var nx = dc.getWidth() / 2 + 10;
+            var ny = dc.getHeight() * 0.10;
+            dc.drawCircle(nx, ny + 5, 6);
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(nx, ny + 5, Graphics.FONT_XTINY, settings.notificationCount.toString(), Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        }
+
         // Draw battery icon
         var batteryColor = Graphics.COLOR_GREEN;
         if (battery <= 20) {
@@ -74,9 +99,9 @@ class MyWatchFace1View extends WatchUi.WatchFace {
         }
 
         dc.setColor(batteryColor, Graphics.COLOR_TRANSPARENT);
-        // Position it near the battery label (y="70%")
+        // Position it near the battery label (y="78%")
         var x = dc.getWidth() / 2 - 40;
-        var y = dc.getHeight() * 0.70 - 10;
+        var y = dc.getHeight() * 0.78 - 10;
         dc.drawRectangle(x, y, 20, 10);
         dc.fillRectangle(x + 2, y + 2, (16 * (battery / 100.0)).toNumber(), 6);
         dc.fillRectangle(x + 20, y + 3, 2, 4);
