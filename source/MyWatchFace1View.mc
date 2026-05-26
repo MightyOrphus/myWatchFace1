@@ -3,6 +3,7 @@ import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.System;
 import Toybox.Time.Gregorian;
+import Toybox.Weather;
 import Toybox.WatchUi;
 
 class MyWatchFace1View extends WatchUi.WatchFace {
@@ -54,16 +55,86 @@ class MyWatchFace1View extends WatchUi.WatchFace {
 
         // Get battery info
         var stats = System.getSystemStats();
-        var batteryPercentage = stats.battery.format("%d");
-        var estimatedDaysLeft = stats.batteryInDays.format("%d");
+        var battery = stats.battery;
+        var batteryPercentage = battery.format("%d");
 
         // Update battery view
         var batteryView = View.findDrawableById("BatteryLabel") as Text;
         batteryView.setColor(Application.Properties.getValue("ForegroundColor") as Number);
-        batteryView.setText(Lang.format("$1$% $2$ days", [batteryPercentage, estimatedDaysLeft]));
+        batteryView.setText(Lang.format("$1$%", [batteryPercentage]));
 
         // Call the parent onUpdate function to redraw the layout
         View.onUpdate(dc);
+
+        var settings = System.getDeviceSettings();
+
+        // Draw Weather info
+        var cond = Weather.getCurrentConditions();
+        if (cond != null && cond.temperature != null) {
+            dc.setColor(Application.Properties.getValue("ForegroundColor") as Number, Graphics.COLOR_TRANSPARENT);
+            var wx = dc.getWidth() / 2 - 50;
+            var wy = dc.getHeight() * 0.15;
+            var tempStr = cond.temperature.format("%d") + "°";
+            dc.drawText(wx, wy, Graphics.FONT_TINY, tempStr, Graphics.TEXT_JUSTIFY_RIGHT);
+
+            // Draw rain forecast (precipitation chance)
+            var hourly = Weather.getHourlyForecast();
+            if (hourly != null && hourly.size() > 0) {
+                var nextHour = hourly[0];
+                if (nextHour != null && nextHour.precipitationChance != null) {
+                    dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_TRANSPARENT);
+                    var rainStr = nextHour.precipitationChance.toString() + "%";
+                    // Draw a tiny raindrop
+                    dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+                    dc.fillCircle(wx + 10, wy + 15, 2);
+                    dc.fillPolygon([[wx + 10, wy + 11], [wx + 8, wy + 15], [wx + 12, wy + 15]]);
+                    dc.setColor(Application.Properties.getValue("ForegroundColor") as Number, Graphics.COLOR_TRANSPARENT);
+                    dc.drawText(wx + 15, wy + 12, Graphics.FONT_XTINY, rainStr, Graphics.TEXT_JUSTIFY_LEFT);
+                }
+            }
+        }
+
+        // Draw connectivity icon
+        if (settings.phoneConnected) {
+            dc.setColor(Graphics.COLOR_BLUE, Graphics.COLOR_TRANSPARENT);
+            var bx = dc.getWidth() / 2 - 10;
+            var by = dc.getHeight() * 0.08;
+            // Simple Bluetooth-like icon using lines
+            dc.drawLine(bx, by, bx, by + 10);
+            dc.drawLine(bx, by, bx + 5, by + 3);
+            dc.drawLine(bx + 5, by + 3, bx - 5, by + 7);
+            dc.drawLine(bx - 5, by + 3, bx + 5, by + 7);
+            dc.drawLine(bx + 5, by + 7, bx, by + 10);
+        }
+
+        // Draw notification count
+        if (settings.notificationCount > 0) {
+            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_TRANSPARENT);
+            var nx = dc.getWidth() / 2 + 10;
+            var ny = dc.getHeight() * 0.08;
+            // Draw a small speech bubble / envelope shape
+            dc.fillRectangle(nx - 7, ny, 14, 10);
+            dc.fillPolygon([[nx - 7, ny + 10], [nx - 2, ny + 10], [nx - 7, ny + 14]]);
+
+            dc.setColor(Graphics.COLOR_BLACK, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(nx, ny + 4, Graphics.FONT_XTINY, settings.notificationCount.toString(), Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER);
+        }
+
+        // Draw battery icon
+        var batteryColor = Graphics.COLOR_GREEN;
+        if (battery <= 20) {
+            batteryColor = Graphics.COLOR_RED;
+        } else if (battery <= 50) {
+            batteryColor = Graphics.COLOR_YELLOW;
+        }
+
+        dc.setColor(batteryColor, Graphics.COLOR_TRANSPARENT);
+        // Position it near the battery label (y="78%")
+        var x = dc.getWidth() / 2 - 40;
+        var y = dc.getHeight() * 0.78 - 10;
+        dc.drawRectangle(x, y, 20, 10);
+        dc.fillRectangle(x + 2, y + 2, (16 * (battery / 100.0)).toNumber(), 6);
+        dc.fillRectangle(x + 20, y + 3, 2, 4);
     }
 
     // Called when this View is removed from the screen. Save the
